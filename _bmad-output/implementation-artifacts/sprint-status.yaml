@@ -1,0 +1,80 @@
+# generated: 2026-04-10
+# last_updated: 2026-04-10
+# project: garagedom (frontend)
+# project_key: NOKEY
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+
+generated: 2026-04-10
+last_updated: 2026-04-10T12:00:00
+project: garagedom
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # ─── Epic 1: Fundação do Projeto ───
+  epic-1: in-progress
+  1-1-fundacao-landing-e-autenticacao: review
+  epic-1-retrospective: optional
+
+  # ─── Epic 2: Autenticação, Sessão e App Shell (funcionalidades restantes) ───
+  epic-2: backlog
+  2-1-oauth-google-e-facebook: backlog
+  2-2-recuperacao-de-senha: backlog
+  2-3-exclusao-de-conta-lgpd: backlog
+  2-4-navegacao-global-contextual: backlog
+  2-5-sessao-persistente-refresh-token: backlog
+  epic-2-retrospective: optional
+
+  # ─── Epic 3: Perfis & Mapa de Descoberta Geográfica ───
+  epic-3: backlog
+  3-1-criacao-de-perfil-com-geocoding: backlog
+  3-2-edicao-de-perfil: backlog
+  3-3-controle-de-visibilidade-no-mapa-lgpd: backlog
+  3-4-visualizacao-de-perfil-publico: backlog
+  3-5-endpoint-de-pins-do-mapa: backlog
+  epic-3-retrospective: optional
+
+  # ─── Epic 4: Sistema de Conexões entre Bandas ───
+  epic-4: backlog
+  4-1-enviar-convite-de-conexao: backlog
+  4-2-responder-a-convite-de-conexao: backlog
+  4-3-listar-conexoes-ativas: backlog
+  4-4-desfazer-conexao: backlog
+  epic-4-retrospective: optional
+
+  # ─── Epic 5: Workflow de Propostas de Eventos ───
+  epic-5: backlog
+  5-1-criar-proposta-fluxo-banda: backlog
+  5-2-criar-proposta-fluxo-venue-e-produtor: backlog
+  5-3-venue-responde-a-proposta: backlog
+  5-4-cancelar-proposta: backlog
+  5-5-historico-de-propostas: backlog
+  epic-5-retrospective: optional
+
+  # ─── Epic 6: Comunicação em Tempo Real ───
+  epic-6: backlog
+  6-1-iniciar-conversa-e-historico: backlog
+  6-2-chat-em-tempo-real-via-actioncable: backlog
+  6-3-notificacoes-in-app-via-actioncable: backlog
+  6-4-denuncia-de-mensagem: backlog
+  epic-6-retrospective: optional
