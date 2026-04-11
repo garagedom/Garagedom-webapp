@@ -35,7 +35,7 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
   });
 
-  if (isAuthenticated) return <Navigate to="/app/map" replace />;
+  if (isAuthenticated) return <Navigate to="/app/profile/create" replace />;
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
@@ -45,7 +45,7 @@ export default function RegisterPage() {
         password_confirmation: data.password_confirmation,
         terms_accepted: data.terms_accepted,
       });
-      void navigate('/app/map', { replace: true });
+      void navigate('/app/profile/create', { replace: true });
     } catch (err: unknown) {
       if (
         typeof err === 'object' &&

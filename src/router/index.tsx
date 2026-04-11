@@ -1,10 +1,13 @@
-import { createBrowserRouter } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-
-const LandingPage  = lazy(() => import('@/features/landing/LandingPage'));
-const LoginPage    = lazy(() => import('@/features/auth/LoginPage'));
-const RegisterPage = lazy(() => import('@/features/auth/RegisterPage'));
-const MapPage      = lazy(() => import('@/features/app/map/MapPage'));
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { Suspense } from 'react';
+import { ProtectedRoute } from './ProtectedRoute';
+import {
+  LandingPage,
+  LoginPage,
+  RegisterPage,
+  MapPage,
+  CreateProfilePage,
+} from './lazyRoutes';
 
 export const router = createBrowserRouter([
   {
@@ -35,8 +38,24 @@ export const router = createBrowserRouter([
     path: '/app/map',
     element: (
       <Suspense fallback={null}>
-        <MapPage />
+        <ProtectedRoute>
+          <MapPage />
+        </ProtectedRoute>
       </Suspense>
     ),
+  },
+  {
+    path: '/app/profile/create',
+    element: (
+      <Suspense fallback={null}>
+        <ProtectedRoute>
+          <CreateProfilePage />
+        </ProtectedRoute>
+      </Suspense>
+    ),
+  },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />,
   },
 ]);
