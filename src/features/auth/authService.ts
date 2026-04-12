@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/api-client';
-import { setToken } from '@/lib/auth-token';
+import { setToken, clearToken } from '@/lib/auth-token';
 import { useAuthStore } from '@/stores/authStore';
 
 interface LoginPayload {
@@ -8,6 +8,7 @@ interface LoginPayload {
 }
 
 interface RegisterPayload {
+  name: string;
   email: string;
   password: string;
   password_confirmation: string;
@@ -31,4 +32,15 @@ export async function register(payload: RegisterPayload): Promise<AuthResponse> 
   setToken(data.token);
   useAuthStore.getState().setUser(data.user);
   return data;
+}
+
+export async function fetchCurrentUser(): Promise<void> {
+  const { data } = await apiClient.get<{ id: number; email: string }>('/api/v1/users/me');
+  useAuthStore.getState().setUser(data);
+}
+
+export function logout(): void {
+  clearToken();
+  useAuthStore.getState().clearAuth();
+  // TODO: desconectar ActionCable quando implementado (Story 7.x)
 }

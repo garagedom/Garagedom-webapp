@@ -1,6 +1,6 @@
 # Story 3.3: Edição de Perfil
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 

@@ -25,7 +25,7 @@ export function CreateProfileForm({ onSubmit, apiError }: CreateProfileFormProps
       name: '',
       profile_type: undefined,
       city: '',
-      musical_genre: '',
+      music_genre: '',
     },
   });
 
@@ -123,7 +123,7 @@ export function CreateProfileForm({ onSubmit, apiError }: CreateProfileFormProps
       {/* Gênero musical (opcional) */}
       <div className="flex flex-col gap-1">
         <label
-          htmlFor="musical_genre"
+          htmlFor="music_genre"
           className="text-sm font-medium"
           style={{ color: '#F2CF1D' }}
         >
@@ -133,7 +133,7 @@ export function CreateProfileForm({ onSubmit, apiError }: CreateProfileFormProps
           </span>
         </label>
         <input
-          id="musical_genre"
+          id="music_genre"
           type="text"
           placeholder="Ex: Rock, Sertanejo, MPB..."
           className="px-3 py-2 text-sm bg-transparent outline-none"
@@ -141,7 +141,7 @@ export function CreateProfileForm({ onSubmit, apiError }: CreateProfileFormProps
             color: '#f3f4f6',
             border: '2px solid #F2CF1D',
           }}
-          {...register('musical_genre')}
+          {...register('music_genre')}
         />
       </div>
 

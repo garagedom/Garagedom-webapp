@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-11
-last_updated: 2026-04-11T00:00:00
+last_updated: 2026-04-12T01:00:00
 project: garagedom
 project_key: NOKEY
 tracking_system: file-system
@@ -48,23 +48,23 @@ development_status:
   epic-1-retrospective: optional
 
   # ─── Epic 2: Autenticação, Sessão e App Shell ───
-  epic-2: backlog
-  2-1-cadastro-com-email-e-senha: backlog
-  2-2-login-e-logout: backlog
-  2-3-oauth-google-e-facebook: backlog
-  2-4-redefinicao-de-senha: backlog
-  2-5-exclusao-de-conta: backlog
-  2-6-navegacao-global-contextual: backlog
-  2-7-sessao-persistente-com-refresh-token: backlog
+  epic-2: in-progress
+  2-1-cadastro-com-email-e-senha: review
+  2-2-login-e-logout: review
+  2-3-oauth-google-e-facebook: review
+  2-4-redefinicao-de-senha: review
+  2-5-exclusao-de-conta: review
+  2-6-navegacao-global-contextual: review
+  2-7-sessao-persistente-com-refresh-token: review
   epic-2-retrospective: optional
 
   # ─── Epic 3: Perfis e Identidade ───
   epic-3: in-progress
   3-1-criacao-de-perfil: review
-  3-2-upload-de-logo: ready-for-dev
-  3-3-edicao-de-perfil: ready-for-dev
-  3-4-controle-de-visibilidade-do-pin: ready-for-dev
-  3-5-visualizacao-de-perfil-publico: ready-for-dev
+  3-2-upload-de-logo: review
+  3-3-edicao-de-perfil: review
+  3-4-controle-de-visibilidade-do-pin: review
+  3-5-visualizacao-de-perfil-publico: review
   epic-3-retrospective: optional
 
   # ─── Epic 4: Mapa e Descoberta ───

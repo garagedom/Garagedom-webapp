@@ -1,27 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { register as registerUser } from './authService';
 import { useAuthStore } from '@/stores/authStore';
-
-const registerSchema = z
-  .object({
-    email: z.string().email('E-mail inválido'),
-    password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres'),
-    password_confirmation: z.string(),
-    terms_accepted: z
-      .boolean()
-      .refine((val) => val === true, {
-        message: 'Você precisa aceitar os termos de uso para continuar',
-      }),
-  })
-  .refine((data) => data.password === data.password_confirmation, {
-    message: 'As senhas não coincidem',
-    path: ['password_confirmation'],
-  });
-
-type RegisterFormData = z.infer<typeof registerSchema>;
+import { registerSchema, type RegisterFormData } from '@/lib/schemas/auth';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -40,6 +22,7 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       await registerUser({
+        name: data.name,
         email: data.email,
         password: data.password,
         password_confirmation: data.password_confirmation,
@@ -95,6 +78,32 @@ export default function RegisterPage() {
           className="flex flex-col gap-4"
           noValidate
         >
+          <div className="flex flex-col gap-1">
+            <label
+              htmlFor="name"
+              className="text-sm font-medium"
+              style={{ color: '#F2CF1D' }}
+            >
+              Nome
+            </label>
+            <input
+              id="name"
+              type="text"
+              autoComplete="name"
+              className="px-3 py-2 text-sm bg-transparent outline-none"
+              style={{
+                color: '#f3f4f6',
+                border: '2px solid #F2CF1D',
+              }}
+              {...register('name')}
+            />
+            {errors.name && (
+              <span className="text-xs" style={{ color: '#ef4444' }}>
+                {errors.name.message}
+              </span>
+            )}
+          </div>
+
           <div className="flex flex-col gap-1">
             <label
               htmlFor="email"
@@ -215,6 +224,24 @@ export default function RegisterPage() {
             {isSubmitting ? 'Criando conta...' : 'Criar conta'}
           </button>
         </form>
+
+        <div className="mt-4 flex flex-col gap-2">
+          <div className="text-xs text-center mb-1" style={{ color: '#6b7280' }}>ou cadastre-se com</div>
+          <a
+            href={`${import.meta.env.VITE_API_URL}/auth/google_oauth2`}
+            className="px-4 py-2 text-sm font-medium text-center"
+            style={{ color: '#f3f4f6', border: '2px solid #374151' }}
+          >
+            Google
+          </a>
+          <a
+            href={`${import.meta.env.VITE_API_URL}/auth/facebook`}
+            className="px-4 py-2 text-sm font-medium text-center"
+            style={{ color: '#f3f4f6', border: '2px solid #374151' }}
+          >
+            Facebook
+          </a>
+        </div>
 
         <p className="mt-6 text-center text-sm" style={{ color: '#9ca3af' }}>
           Já tem conta?{' '}

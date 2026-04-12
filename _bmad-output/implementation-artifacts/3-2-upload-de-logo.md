@@ -1,6 +1,6 @@
 # Story 3.2: Upload de Logo
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
