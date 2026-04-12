@@ -4,6 +4,7 @@ import type { ProfileType } from '@/lib/schemas/profileSchema';
 interface AuthUser {
   id: number;
   email: string;
+  isAdmin?: boolean;
   profileId?: number;
   profileType?: ProfileType;
 }

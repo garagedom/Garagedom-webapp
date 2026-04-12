@@ -1,20 +1,15 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { login } from './authService';
 import { useAuthStore } from '@/stores/authStore';
-
-const loginSchema = z.object({
-  email: z.string().email('E-mail inválido'),
-  password: z.string().min(1, 'Senha obrigatória'),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { loginSchema, type LoginFormData } from '@/lib/schemas/auth';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const from = (location.state as { from?: { pathname: string } } | null)?.from?.pathname ?? '/app/map';
   const {
     register,
     handleSubmit,
@@ -24,12 +19,15 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
+  const oauthError = (location.state as { oauthError?: string; successMessage?: string } | null)?.oauthError;
+  const successMessage = (location.state as { successMessage?: string } | null)?.successMessage;
+
   if (isAuthenticated) return <Navigate to="/app/map" replace />;
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
-      void navigate('/app/map', { replace: true });
+      void navigate(from, { replace: true });
     } catch (err: unknown) {
       if (
         typeof err === 'object' &&
@@ -139,7 +137,43 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm" style={{ color: '#9ca3af' }}>
+        <div className="mt-4 flex flex-col gap-2">
+          <div className="text-xs text-center mb-1" style={{ color: '#6b7280' }}>ou entre com</div>
+          <a
+            href={`${import.meta.env.VITE_API_URL}/auth/google_oauth2`}
+            className="px-4 py-2 text-sm font-medium text-center"
+            style={{ color: '#f3f4f6', border: '2px solid #374151' }}
+          >
+            Google
+          </a>
+          <a
+            href={`${import.meta.env.VITE_API_URL}/auth/facebook`}
+            className="px-4 py-2 text-sm font-medium text-center"
+            style={{ color: '#f3f4f6', border: '2px solid #374151' }}
+          >
+            Facebook
+          </a>
+        </div>
+
+        {oauthError && (
+          <p className="mt-3 text-sm text-center" style={{ color: '#ef4444' }}>
+            {oauthError}
+          </p>
+        )}
+
+        {successMessage && (
+          <p className="mt-3 text-sm text-center" style={{ color: '#4ade80' }}>
+            {successMessage}
+          </p>
+        )}
+
+        <p className="mt-4 text-center text-sm">
+          <Link to="/forgot-password" className="font-medium underline" style={{ color: '#9ca3af' }}>
+            Esqueci minha senha
+          </Link>
+        </p>
+
+        <p className="mt-2 text-center text-sm" style={{ color: '#9ca3af' }}>
           Não tem conta?{' '}
           <Link
             to="/register"

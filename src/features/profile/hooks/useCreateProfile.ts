@@ -5,7 +5,7 @@ import { useAuthStore } from '@/stores/authStore';
 import type { CreateProfileInput, Profile } from '@/lib/schemas/profileSchema';
 
 async function createProfile(input: CreateProfileInput): Promise<Profile> {
-  const { data } = await apiClient.post('/api/v1/profiles', { profile: input });
+  const { data } = await apiClient.post('/api/v1/profiles', input);
   return profileSchema.parse(data);
 }
 

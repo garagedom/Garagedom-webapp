@@ -1,6 +1,6 @@
 # Story 3.4: Controle de Visibilidade do Pin
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 

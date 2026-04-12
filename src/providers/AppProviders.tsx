@@ -4,12 +4,16 @@ import { RouterProvider } from 'react-router-dom';
 import { queryClient } from '@/lib/query-client';
 import { router } from '@/router';
 import { useAuthStore } from '@/stores/authStore';
+import { clearToken } from '@/lib/auth-token';
+import { useSessionInit } from '@/features/auth/useSessionInit';
 
-export function AppProviders() {
+function AppCore() {
   const clearAuth = useAuthStore((s) => s.clearAuth);
 
+  // Handle session expiry during active use
   useEffect(() => {
     const handler = () => {
+      clearToken();
       clearAuth();
       void router.navigate('/login');
     };
@@ -17,9 +21,30 @@ export function AppProviders() {
     return () => window.removeEventListener('auth:unauthorized', handler);
   }, [clearAuth]);
 
+  return <RouterProvider router={router} />;
+}
+
+function SessionGate({ children }: { children: React.ReactNode }) {
+  const { ready } = useSessionInit();
+
+  if (!ready) {
+    return (
+      <main
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: '#0D0D0D' }}
+      />
+    );
+  }
+
+  return <>{children}</>;
+}
+
+export function AppProviders() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <SessionGate>
+        <AppCore />
+      </SessionGate>
     </QueryClientProvider>
   );
 }

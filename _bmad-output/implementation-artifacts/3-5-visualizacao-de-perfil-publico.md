@@ -1,6 +1,6 @@
 # Story 3.5: Visualização de Perfil Público
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
