@@ -35,7 +35,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 
 generated: 2026-04-11
-last_updated: 2026-04-12T01:00:00
+last_updated: 2026-04-16T00:00:00
 project: garagedom
 project_key: NOKEY
 tracking_system: file-system
@@ -68,11 +68,11 @@ development_status:
   epic-3-retrospective: optional
 
   # ─── Epic 4: Mapa e Descoberta ───
-  epic-4: backlog
-  4-1-mapa-base-com-pins: backlog
-  4-2-card-de-perfil-no-pin: backlog
-  4-3-filtros-e-navegacao-do-mapa: backlog
-  4-4-pin-proprio-em-tempo-real: backlog
+  epic-4: in-progress
+  4-1-mapa-base-com-pins: review
+  4-2-card-de-perfil-no-pin: review
+  4-3-filtros-e-navegacao-do-mapa: review
+  4-4-pin-proprio-em-tempo-real: review
   epic-4-retrospective: optional
 
   # ─── Epic 5: Conexões entre Bandas ───

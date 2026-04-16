@@ -4,9 +4,9 @@ import { setToken } from '@/lib/auth-token';
 import { fetchCurrentUser } from './authService';
 
 /**
- * Tenta renovar a sessão silenciosamente ao inicializar o app.
- * Usa o httpOnly refresh cookie para obter um novo JWT.
- * Retorna `ready: true` quando concluído (com ou sem sucesso).
+ * Restaura a sessão silenciosamente ao inicializar o app.
+ * Tenta renovar o JWT via cookie httpOnly de refresh token.
+ * Retorna `ready: true` quando concluído (com ou sem sessão ativa).
  */
 export function useSessionInit() {
   const [ready, setReady] = useState(false);
@@ -22,7 +22,7 @@ export function useSessionInit() {
         setToken(data.token);
         await fetchCurrentUser();
       } catch {
-        // Refresh falhou (cookie expirado ou ausente) — usuário não autenticado, comportamento normal
+        // Refresh falhou (cookie expirado ou ausente) — usuário não autenticado
       } finally {
         setReady(true);
       }
