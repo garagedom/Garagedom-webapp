@@ -136,3 +136,9 @@
     @apply font-sans;
   }
 }
+
+/* Leaflet tiles quebram se max-width for aplicado pelo reset do Tailwind */
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}

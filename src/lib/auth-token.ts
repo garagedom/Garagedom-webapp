@@ -1,4 +1,4 @@
-// JWT singleton in module memory — never persisted to localStorage, sessionStorage, or JS-accessible cookie
+// JWT em memória — sessão restaurada via cookie httpOnly de refresh token no init do app
 let _token: string | null = null;
 
 export const getToken = (): string | null => _token;
