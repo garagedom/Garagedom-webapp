@@ -17,7 +17,7 @@ interface RegisterPayload {
 
 interface AuthResponse {
   token: string;
-  user: { id: number; email: string };
+  user: { id: number; email: string; profile_id?: number; profile_type?: string };
 }
 
 export async function login(payload: LoginPayload): Promise<AuthResponse> {
@@ -35,8 +35,17 @@ export async function register(payload: RegisterPayload): Promise<AuthResponse> 
 }
 
 export async function fetchCurrentUser(): Promise<void> {
-  const { data } = await apiClient.get<{ id: number; email: string }>('/api/v1/users/me');
-  useAuthStore.getState().setUser(data);
+  const { data } = await apiClient.get<{
+    id: number;
+    email: string;
+    profile_id?: number;
+    profile_type?: string;
+  }>('/api/v1/users/me');
+  const store = useAuthStore.getState();
+  store.setUser({ id: data.id, email: data.email });
+  if (data.profile_id && data.profile_type) {
+    store.setProfile(data.profile_id, data.profile_type as import('@/lib/schemas/profileSchema').ProfileType);
+  }
 }
 
 export function logout(): void {

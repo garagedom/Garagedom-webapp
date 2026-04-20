@@ -1,26 +1,11 @@
-/* ─── LANDING PAGE GLOBAL STYLES ─── */
+/* ─── LANDING PAGE ─── */
 .lp-root {
-  background: #080700;
-  color: #F0ECD8;
-  font-family: 'VT323', monospace;
-  font-size: 20px;
+  background: #F5F0DC;
+  color: #0a0900;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
   overflow-x: hidden;
   min-height: 100vh;
-}
-
-/* scanlines overlay */
-.lp-scanlines {
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,0,0,0.18) 2px,
-    rgba(0,0,0,0.18) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
 }
 
 /* ─── NAV ─── */
@@ -28,35 +13,35 @@
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  padding: 0 40px;
-  height: 64px;
+  height: 60px;
+  background: #0a0900;
+  border-bottom: 3px solid #0a0900;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(8,7,0,0.9);
-  border-bottom: 2px solid rgba(255,210,0,0.3);
-  backdrop-filter: blur(6px);
-  transition: border-color 0.3s;
+  padding: 0 40px;
+  transition: border-bottom-color 0.3s;
 }
-.lp-nav.scrolled { border-bottom-color: rgba(255,210,0,0.7); }
+.lp-nav.scrolled { border-bottom-color: rgba(255,210,0,0.6); }
 .lp-nav-logo {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 14px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
   color: #FFD200;
-  text-shadow: 0 0 12px rgba(255,210,0,0.5);
+  letter-spacing: 4px;
 }
 .lp-nav-links {
   display: flex;
-  gap: 32px;
+  gap: 40px;
   list-style: none;
   padding: 0; margin: 0;
 }
 .lp-nav-links a {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: rgba(240,236,216,0.5);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #F5F0DC;
   text-decoration: none;
-  letter-spacing: 1px;
   transition: color 0.15s;
 }
 .lp-nav-links a:hover { color: #FFD200; }
@@ -65,350 +50,263 @@
    HERO
 ═══════════════════════════════════════ */
 .lp-hero {
+  min-height: 100vh;
+  padding-top: 60px;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  background: #0a0900;
   position: relative;
-  width: 100%;
-  height: 100vh;
-  min-height: 700px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
-.lp-concert-bg {
-  position: absolute;
-  inset: 0;
-  background: #050400;
-  overflow: hidden;
-}
-.lp-concert-bg::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 70%, rgba(255,200,0,0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 50% at 80% 65%, rgba(255,120,0,0.25) 0%, transparent 55%),
-    radial-gradient(ellipse 30% 60% at 50% 80%, rgba(255,210,0,0.2) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 30% at 35% 60%, rgba(200,80,0,0.2) 0%, transparent 50%);
-  animation: lpStageLights 6s ease-in-out infinite alternate;
-}
-.lp-concert-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 20% 60% at 10% 90%, rgba(255,180,0,0.4) 0%, transparent 50%),
-    radial-gradient(ellipse 15% 55% at 90% 85%, rgba(255,140,0,0.35) 0%, transparent 50%),
-    radial-gradient(ellipse 10% 70% at 50% 100%, rgba(255,210,0,0.3) 0%, transparent 40%);
-  animation: lpStageLights2 4s ease-in-out infinite alternate;
-}
-@keyframes lpStageLights {
-  0%   { opacity: 0.8; transform: scale(1) translateX(0); }
-  50%  { opacity: 1; transform: scale(1.05) translateX(-15px); }
-  100% { opacity: 0.7; transform: scale(0.97) translateX(20px); }
-}
-@keyframes lpStageLights2 {
-  0%   { opacity: 1; transform: translateX(10px) scaleY(0.95); }
-  100% { opacity: 0.6; transform: translateX(-20px) scaleY(1.1); }
-}
-
-.lp-crowd {
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 100%;
-  height: 220px;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1440' height='220'%3E%3Cpath fill='%23000' d='M0,220 L0,160 Q30,130 60,155 Q80,120 110,150 Q130,100 160,140 Q185,115 210,145 Q240,80 270,130 Q300,100 330,140 Q360,115 390,145 Q420,70 450,120 Q480,100 510,140 Q540,90 570,130 Q600,110 630,145 Q660,75 690,125 Q720,100 750,140 Q780,120 810,150 Q840,85 870,130 Q900,110 930,145 Q960,80 990,128 Q1020,105 1050,142 Q1080,90 1110,132 Q1140,115 1170,148 Q1200,85 1230,130 Q1260,110 1290,145 Q1320,125 1350,155 Q1390,130 1440,160 L1440,220 Z'/%3E%3C/svg%3E") bottom/cover no-repeat;
-  z-index: 2;
-}
-
-.lp-grain {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  opacity: 0.06;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 256px;
-  animation: lpGrainAnim 0.3s steps(1) infinite;
-}
-@keyframes lpGrainAnim {
-  0%   { background-position: 0 0; }
-  20%  { background-position: -50px 30px; }
-  40%  { background-position: 30px -20px; }
-  60%  { background-position: -70px 50px; }
-  80%  { background-position: 40px -40px; }
-  100% { background-position: -20px 10px; }
-}
-
-.lp-hero-blur {
-  position: absolute;
-  inset: 0;
-  backdrop-filter: blur(12px) brightness(0.55);
-  z-index: 4;
-}
-
-.lp-hero-content {
+/* LEFT: photo visual */
+.lp-hero-visual {
   position: relative;
+  overflow: hidden;
+  border-right: 3px solid #FFD200;
+  background-size: cover;
+  background-position: center;
+  background-color: #0a0900;
+  transition: background-image 0.8s ease;
+}
+.lp-hero-visual-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(10,9,0,0.25) 40%, rgba(10,9,0,0.55));
+  pointer-events: none;
+}
+.lp-hero-headline {
+  position: absolute;
+  bottom: 60px;
+  left: 40px;
+  right: 40px;
   z-index: 10;
+}
+.lp-hero-headline h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 7vw, 100px);
+  line-height: 0.95;
+  color: #FFD200;
+  text-shadow: 5px 5px 0 rgba(0,0,0,0.9);
+}
+.lp-hero-headline h1 span {
+  color: #F5F0DC;
+  display: block;
+}
+.lp-hero-sub {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(245,240,220,0.7);
+  letter-spacing: 1px;
+  max-width: 480px;
+  line-height: 1.5;
+}
+
+/* RIGHT: login panel */
+.lp-hero-login {
+  background: #FFD200;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 48px;
-  width: 100%;
-  max-width: 520px;
-  padding: 0 24px;
-}
-
-.lp-logo-main {
-  font-family: 'Press Start 2P', monospace;
-  font-size: clamp(28px, 5vw, 52px);
-  color: #FFD200;
-  letter-spacing: 4px;
-  text-align: center;
-  text-shadow:
-    0 0 20px rgba(255,210,0,0.8),
-    0 0 40px rgba(255,180,0,0.5),
-    4px 4px 0 rgba(0,0,0,0.8);
-  animation: lpLogoPulse 3s ease-in-out infinite;
-}
-@keyframes lpLogoPulse {
-  0%, 100% { text-shadow: 0 0 20px rgba(255,210,0,0.8), 0 0 40px rgba(255,180,0,0.5), 4px 4px 0 rgba(0,0,0,0.8); }
-  50% { text-shadow: 0 0 30px rgba(255,210,0,1), 0 0 60px rgba(255,180,0,0.8), 4px 4px 0 rgba(0,0,0,0.8); }
-}
-.lp-logo-sub {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  color: rgba(240,236,216,0.7);
-  letter-spacing: 6px;
-  margin-top: 12px;
-  text-transform: uppercase;
-  text-align: center;
-}
-
-/* login card */
-.lp-login-card {
-  width: 100%;
-  background: rgba(8,7,0,0.88);
-  border: 3px solid #FFD200;
-  padding: 40px 36px;
+  justify-content: center;
+  padding: 60px 48px;
   position: relative;
 }
-.lp-login-card::before {
-  content: '[ ACESSO ]';
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  color: #080700;
-  background: #FFD200;
-  padding: 4px 12px;
-  position: absolute;
-  top: -14px;
-  left: 24px;
-}
-.lp-login-card::after {
+.lp-hero-login::before {
   content: '';
   position: absolute;
-  top: -3px; right: -3px;
-  width: 12px; height: 12px;
-  background: #080700;
-  border-right: 3px solid #FFD200;
-  border-top: 3px solid #FFD200;
+  top: 0; bottom: 0; left: 0;
+  width: 4px;
+  background: #0a0900;
+}
+
+.lp-login-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 3px;
+  color: #0a0900;
+  margin-bottom: 32px;
+  line-height: 1;
 }
 
 .lp-login-tabs {
   display: flex;
-  gap: 0;
+  border: 3px solid #0a0900;
   margin-bottom: 32px;
 }
 .lp-tab-btn {
   flex: 1;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
   padding: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   background: transparent;
-  color: rgba(240,236,216,0.4);
-  border: 2px solid rgba(255,210,0,0.3);
+  color: #0a0900;
+  border: none;
   cursor: pointer;
-  transition: all 0.15s;
-  letter-spacing: 1px;
+  transition: all 0.1s;
 }
 .lp-tab-btn.active {
-  background: #FFD200;
-  color: #080700;
-  border-color: #FFD200;
-}
-.lp-tab-btn:hover:not(.active) {
+  background: #0a0900;
   color: #FFD200;
-  border-color: #FFD200;
 }
+.lp-tab-btn + .lp-tab-btn { border-left: 3px solid #0a0900; }
+.lp-tab-btn:hover:not(.active) { background: rgba(10,9,0,0.08); }
 
-.lp-form-group {
-  margin-bottom: 20px;
-}
+.lp-form-group { margin-bottom: 20px; }
 .lp-form-group label {
   display: block;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: #FFD200;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #0a0900;
   margin-bottom: 8px;
-  letter-spacing: 1px;
 }
 .lp-form-group input,
 .lp-form-group select {
   width: 100%;
-  background: #1a1800;
-  border: 2px solid rgba(255,210,0,0.4);
-  color: #F0ECD8;
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  padding: 10px 14px;
+  background: #F5F0DC;
+  border: 3px solid #0a0900;
+  color: #0a0900;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 16px;
   outline: none;
-  transition: border-color 0.15s;
+  transition: box-shadow 0.1s;
+  -webkit-appearance: none;
+  border-radius: 0;
 }
 .lp-form-group input:focus,
 .lp-form-group select:focus {
-  border-color: #FFD200;
-  box-shadow: 0 0 12px rgba(255,210,0,0.2);
+  box-shadow: 6px 6px 0 #0a0900;
 }
-.lp-form-group select option { background: #111000; }
+.lp-form-group select { cursor: pointer; }
+.lp-form-group select option { background: #F5F0DC; }
 
 .lp-btn-primary {
   width: 100%;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
   padding: 16px;
-  background: #FFD200;
-  color: #080700;
-  border: none;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  background: #0a0900;
+  color: #FFD200;
+  border: 3px solid #0a0900;
   cursor: pointer;
-  letter-spacing: 2px;
+  box-shadow: 6px 6px 0 #0a0900;
   transition: all 0.1s;
-  position: relative;
   margin-top: 8px;
 }
-.lp-btn-primary::after {
-  content: '';
-  position: absolute;
-  bottom: -5px; right: -5px;
-  width: 100%; height: 100%;
-  background: rgba(255,210,0,0.25);
-  z-index: -1;
-}
 .lp-btn-primary:hover {
-  background: #fff;
-  transform: translate(-2px, -2px);
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0 #0a0900;
 }
-.lp-btn-primary:active { transform: translate(1px, 1px); }
+.lp-btn-primary:active {
+  transform: translate(3px, 3px);
+  box-shadow: 3px 3px 0 #0a0900;
+}
 
 .lp-scroll-hint {
   position: absolute;
   bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  text-align: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  color: rgba(255,210,0,0.6);
-  letter-spacing: 2px;
-  animation: lpBounce 2s ease-in-out infinite;
+  right: 48px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(10,9,0,0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.lp-scroll-hint .arrow { font-size: 18px; display: block; margin-top: 6px; }
-@keyframes lpBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
+.lp-scroll-hint .arrow { font-size: 14px; }
 
 /* ═══════════════════════════════════════
    SECTION COMMON
 ═══════════════════════════════════════ */
-.lp-section { padding: 100px 40px; }
 .lp-section-tag {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  color: #080700;
-  background: #FFD200;
   display: inline-block;
-  padding: 5px 14px;
-  margin-bottom: 24px;
-  letter-spacing: 2px;
+  background: #0a0900;
+  color: #FFD200;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  margin-bottom: 20px;
 }
 .lp-section-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: clamp(16px, 2.5vw, 28px);
-  color: #FFD200;
-  line-height: 1.6;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: 2px;
   margin-bottom: 16px;
-  text-shadow: 3px 3px 0 rgba(0,0,0,0.6);
 }
 .lp-section-body {
-  font-family: 'VT323', monospace;
-  font-size: 22px;
-  color: rgba(240,236,216,0.75);
-  max-width: 480px;
-  line-height: 1.5;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(10,9,0,0.55);
+  max-width: 500px;
+  line-height: 1.6;
 }
 
 /* ═══════════════════════════════════════
    MAP SECTION
 ═══════════════════════════════════════ */
 .lp-mapa {
-  background: #111000;
-  padding: 100px 0 0;
-  position: relative;
-  overflow: hidden;
-}
-.lp-mapa::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(255,210,0,0.02) 40px, rgba(255,210,0,0.02) 41px),
-    repeating-linear-gradient(0deg,  transparent, transparent 40px, rgba(255,210,0,0.02) 40px, rgba(255,210,0,0.02) 41px);
-  pointer-events: none;
+  background: #F5F0DC;
+  border-top: 3px solid #0a0900;
 }
 
 .lp-mapa-header {
-  padding: 0 80px 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 32px;
-  position: relative;
-  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 40px;
+  padding: 80px 80px 48px;
+  border-bottom: 3px solid #0a0900;
 }
+.lp-mapa .lp-section-title { color: #0a0900; }
 
 .lp-map-legend {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  padding: 20px 24px;
+  border: 3px solid #0a0900;
+  box-shadow: 6px 6px 0 #0a0900;
+  background: #F5F0DC;
 }
 .lp-legend-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: #F0ECD8;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 .lp-legend-dot {
-  width: 16px; height: 16px;
-  border: 3px solid;
+  width: 14px; height: 14px;
+  border: 2px solid #0a0900;
   flex-shrink: 0;
 }
-.lp-legend-dot.band { border-color: #FFD200; background: rgba(255,210,0,0.3); }
-.lp-legend-dot.venue { border-color: #FF6B00; background: rgba(255,107,0,0.3); }
-.lp-legend-dot.producer { border-color: #00E5FF; background: rgba(0,229,255,0.3); }
+.lp-legend-dot.band     { background: #FFD200; }
+.lp-legend-dot.venue    { background: #FF6B00; }
+.lp-legend-dot.producer { background: #00BFFF; }
 
 .lp-map-container {
   width: 100%;
-  height: 520px;
+  height: 560px;
   position: relative;
-  z-index: 1;
-  filter: contrast(1.05) saturate(0.8);
+  border-top: 3px solid #0a0900;
 }
 .lp-map-container .leaflet-tile {
-  filter: invert(1) hue-rotate(180deg) brightness(0.75) contrast(0.9);
+  filter: grayscale(1) contrast(0.85) brightness(0.9);
 }
 
 .lp-map-svg-overlay {
@@ -423,133 +321,124 @@
    FEATURES
 ═══════════════════════════════════════ */
 .lp-features {
-  background: #080700;
-  padding: 100px 80px;
-  position: relative;
+  background: #0a0900;
+  border-top: 3px solid #0a0900;
+  padding: 80px;
 }
-.lp-features::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(90deg, #FFD200 0px, #FFD200 12px, transparent 12px, transparent 20px);
-}
-.lp-features-header { text-align: center; margin-bottom: 80px; }
-.lp-features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 32px;
-  max-width: 1200px;
-  margin: 0 auto;
+.lp-features-header { margin-bottom: 60px; }
+.lp-features-header .lp-section-title { color: #FFD200; }
+.lp-features-header .lp-section-body  { color: rgba(245,240,220,0.5); }
+.lp-features-header .lp-section-tag {
+  background: #FFD200;
+  color: #0a0900;
 }
 
+.lp-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 3px solid #333;
+}
 .lp-feature-card {
-  background: #1a1800;
-  border: 2px solid rgba(255,210,0,0.25);
-  padding: 40px 32px;
+  padding: 40px 36px;
+  border: 1px solid #222;
   position: relative;
-  transition: all 0.2s;
+  transition: background 0.15s;
   cursor: default;
 }
-.lp-feature-card::before {
-  content: attr(data-num);
-  position: absolute;
-  top: -2px; right: -2px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 8px;
-  background: #FFD200;
-  color: #080700;
-  padding: 4px 8px;
-}
-.lp-feature-card:hover {
-  border-color: #FFD200;
-  transform: translate(-3px, -3px);
-  box-shadow: 6px 6px 0 #FFD200;
-}
-.lp-feature-icon {
-  width: 64px; height: 64px;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.lp-feature-card h3 {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  color: #FFD200;
-  line-height: 1.7;
+.lp-feature-card:hover { background: #FFD200; }
+.lp-feature-card:hover .lp-feat-num,
+.lp-feature-card:hover h3,
+.lp-feature-card:hover p { color: #0a0900; }
+
+.lp-feat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  line-height: 1;
+  color: rgba(255,210,0,0.15);
   margin-bottom: 16px;
+  transition: color 0.15s;
+}
+.lp-feature-icon { margin-bottom: 20px; }
+.lp-feature-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 2px;
+  color: #F5F0DC;
+  margin-bottom: 12px;
+  line-height: 1.1;
+  transition: color 0.15s;
 }
 .lp-feature-card p {
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: rgba(240,236,216,0.7);
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(245,240,220,0.5);
+  transition: color 0.15s;
 }
 
 /* ═══════════════════════════════════════
    HOW IT WORKS
 ═══════════════════════════════════════ */
 .lp-como {
-  background: #111000;
-  padding: 100px 80px;
-  position: relative;
+  background: #FFD200;
+  border-top: 3px solid #0a0900;
+  padding: 80px;
 }
-.lp-como::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: repeating-linear-gradient(90deg, #FFD200 0px, #FFD200 12px, transparent 12px, transparent 20px);
+.lp-como .lp-section-title { color: #0a0900; }
+.lp-como > div:first-child { text-align: center; }
+.lp-como .lp-section-tag {
+  background: #0a0900;
+  color: #FFD200;
 }
+
 .lp-steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 48px;
-  max-width: 1100px;
-  margin: 60px auto 0;
-  position: relative;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 3px solid #0a0900;
+  margin-top: 56px;
 }
-.lp-steps::after {
-  content: '';
-  position: absolute;
-  top: 44px;
-  left: 10%; width: 80%;
-  height: 3px;
-  background: repeating-linear-gradient(90deg, #FFD200 0, #FFD200 10px, transparent 10px, transparent 18px);
-  z-index: 0;
-}
-.lp-step { position: relative; z-index: 1; text-align: center; }
-.lp-step-num {
-  width: 88px; height: 88px;
+.lp-step {
+  padding: 40px 32px;
+  border-right: 3px solid #0a0900;
   background: #FFD200;
-  color: #080700;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-  clip-path: polygon(12px 0%, calc(100% - 12px) 0%, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0% calc(100% - 12px), 0% 12px);
+  transition: background 0.15s;
+}
+.lp-step:last-child { border-right: none; }
+.lp-step:hover { background: #0a0900; }
+.lp-step:hover .lp-step-num,
+.lp-step:hover h4 { color: #FFD200; }
+.lp-step:hover p  { color: rgba(245,240,220,0.6); }
+
+.lp-step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  line-height: 1;
+  color: rgba(10,9,0,0.12);
+  margin-bottom: 12px;
+  transition: color 0.15s;
 }
 .lp-step h4 {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 9px;
-  color: #FFD200;
-  line-height: 1.7;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #0a0900;
   margin-bottom: 12px;
+  transition: color 0.15s;
+  line-height: 1.1;
 }
 .lp-step p {
-  font-family: 'VT323', monospace;
-  font-size: 20px;
-  color: rgba(240,236,216,0.65);
+  font-size: 15px;
+  color: rgba(10,9,0,0.55);
+  line-height: 1.6;
+  transition: color 0.15s;
 }
 
 /* ═══════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════ */
 .lp-footer {
-  background: #080700;
+  background: #0a0900;
   border-top: 4px solid #FFD200;
   padding: 48px 80px;
   display: flex;
@@ -559,26 +448,28 @@
   gap: 24px;
 }
 .lp-footer-logo {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
   color: #FFD200;
-  text-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+  letter-spacing: 4px;
 }
 .lp-footer-copy {
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: rgba(240,236,216,0.4);
+  font-size: 13px;
+  color: rgba(245,240,220,0.35);
   text-align: right;
+  line-height: 1.7;
 }
 
-/* Leaflet popup custom */
+/* Leaflet popup */
 .leaflet-popup-content-wrapper {
   background: #0a0900 !important;
   border: 2px solid #FFD200 !important;
   border-radius: 0 !important;
-  color: #F0ECD8 !important;
-  font-family: 'VT323', monospace !important;
-  font-size: 18px !important;
+  color: #F5F0DC !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: 14px !important;
+  box-shadow: 4px 4px 0 #FFD200 !important;
 }
 .leaflet-popup-tip { background: #FFD200 !important; }
-.leaflet-popup-content { color: #F0ECD8 !important; }
+.leaflet-popup-content { color: #F5F0DC !important; font-weight: 500; }
+.leaflet-popup-content b { color: #FFD200; display: block; font-size: 15px; margin-bottom: 2px; }

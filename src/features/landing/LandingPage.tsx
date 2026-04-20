@@ -4,6 +4,15 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './LandingPage.css';
 
+const HERO_PHOTOS = [
+  'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1400&h=1000&fit=crop',
+  'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1400&h=1000&fit=crop',
+  'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1400&h=1000&fit=crop',
+  'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1400&h=1000&fit=crop',
+  'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1400&h=1000&fit=crop',
+  'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=1400&h=1000&fit=crop',
+];
+
 const PIN_IMAGES = {
   band: [
     'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=80&h=80&fit=crop',
@@ -34,7 +43,6 @@ const MARKERS = [
 ];
 
 const CONNECTIONS = [[0,3],[1,7],[2,4],[3,6],[4,0],[5,1],[6,2],[7,5]];
-
 const COLOR_BY_TYPE = { band: '#FFD200', venue: '#FF6B00', producer: '#00E5FF' };
 
 function makeIcon(color: string, imgUrl: string) {
@@ -53,6 +61,7 @@ function makeIcon(color: string, imgUrl: string) {
 export default function LandingPage() {
   const [tab, setTab] = useState<'login' | 'register'>('login');
   const [scrolled, setScrolled] = useState(false);
+  const [bgPhoto] = useState(() => HERO_PHOTOS[Math.floor(Math.random() * HERO_PHOTOS.length)]);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const mapRef = useRef<L.Map | null>(null);
@@ -95,7 +104,7 @@ export default function LandingPage() {
     const buildLines = () => {
       const svg = svgRef.current;
       const container = mapContainerRef.current;
-      if (!svg || !container) return;
+      if (!svg || !container || !mapRef.current) return;
       svg.innerHTML = '';
       const rect = container.getBoundingClientRect();
       svg.setAttribute('width', String(rect.width));
@@ -129,11 +138,15 @@ export default function LandingPage() {
       });
     };
 
-    map.whenReady(() => setTimeout(buildLines, 400));
+    let readyTimer: ReturnType<typeof setTimeout> | null = null;
+    const onResize = () => setTimeout(buildLines, 200);
+    map.whenReady(() => { readyTimer = setTimeout(buildLines, 400); });
     map.on('moveend zoomend', buildLines);
-    window.addEventListener('resize', () => setTimeout(buildLines, 200));
+    window.addEventListener('resize', onResize);
 
     return () => {
+      if (readyTimer) clearTimeout(readyTimer);
+      window.removeEventListener('resize', onResize);
       map.remove();
       mapRef.current = null;
     };
@@ -141,8 +154,6 @@ export default function LandingPage() {
 
   return (
     <div className="lp-root">
-      <div className="lp-scanlines" />
-
       {/* NAV */}
       <nav className={`lp-nav${scrolled ? ' scrolled' : ''}`}>
         <span className="lp-nav-logo">GARAGEDOM</span>
@@ -155,65 +166,73 @@ export default function LandingPage() {
 
       {/* HERO */}
       <section className="lp-hero" id="hero">
-        <div className="lp-concert-bg" />
-        <div className="lp-grain" />
-        <div className="lp-hero-blur" />
-        <div className="lp-crowd" />
-
-        <div className="lp-hero-content">
-          <div style={{ textAlign: 'center' }}>
-            <div className="lp-logo-main">GARAGEDOM</div>
-            <div className="lp-logo-sub">conectando a cena underground</div>
-          </div>
-
-          <div className="lp-login-card">
-            <div className="lp-login-tabs">
-              <button className={`lp-tab-btn${tab === 'login' ? ' active' : ''}`} onClick={() => setTab('login')}>ENTRAR</button>
-              <button className={`lp-tab-btn${tab === 'register' ? ' active' : ''}`} onClick={() => setTab('register')}>CADASTRAR</button>
-            </div>
-
-            {tab === 'login' ? (
-              <div>
-                <div className="lp-form-group">
-                  <label>E-MAIL</label>
-                  <input type="email" placeholder="seu@email.com" />
-                </div>
-                <div className="lp-form-group">
-                  <label>SENHA</label>
-                  <input type="password" placeholder="••••••••" />
-                </div>
-                <button className="lp-btn-primary" onClick={() => navigate('/login')}>▶ ENTRAR</button>
-              </div>
-            ) : (
-              <div>
-                <div className="lp-form-group">
-                  <label>NOME</label>
-                  <input type="text" placeholder="seu nome ou banda" />
-                </div>
-                <div className="lp-form-group">
-                  <label>TIPO DE PERFIL</label>
-                  <select>
-                    <option>🎸 Banda / Músico</option>
-                    <option>🎙️ Produtor</option>
-                    <option>🏟️ Casa de Show</option>
-                  </select>
-                </div>
-                <div className="lp-form-group">
-                  <label>E-MAIL</label>
-                  <input type="email" placeholder="seu@email.com" />
-                </div>
-                <div className="lp-form-group">
-                  <label>SENHA</label>
-                  <input type="password" placeholder="••••••••" />
-                </div>
-                <button className="lp-btn-primary" onClick={() => navigate('/register')}>▶ CRIAR CONTA</button>
-              </div>
-            )}
+        {/* LEFT: concert photo + headline */}
+        <div
+          className="lp-hero-visual"
+          style={{ backgroundImage: `url('${bgPhoto}')` }}
+        >
+          <div className="lp-hero-visual-overlay" />
+          <div className="lp-hero-headline">
+            <h1>
+              CONECTE<br />
+              <span>A CENA.</span>
+            </h1>
+            <p className="lp-hero-sub">Bandas, produtores e casas de show no mesmo lugar. Sem intermediários.</p>
           </div>
         </div>
 
-        <div className="lp-scroll-hint">
-          EXPLORAR<span className="arrow">▼</span>
+        {/* RIGHT: login panel */}
+        <div className="lp-hero-login">
+          <div className="lp-login-title">ACESSO</div>
+
+          <div className="lp-login-tabs">
+            <button
+              className={`lp-tab-btn${tab === 'login' ? ' active' : ''}`}
+              onClick={() => setTab('login')}
+            >
+              ENTRAR
+            </button>
+            <button
+              className={`lp-tab-btn${tab === 'register' ? ' active' : ''}`}
+              onClick={() => setTab('register')}
+            >
+              CADASTRAR
+            </button>
+          </div>
+
+          {tab === 'login' ? (
+            <div>
+              <div className="lp-form-group">
+                <label>E-MAIL</label>
+                <input type="email" placeholder="seu@email.com" />
+              </div>
+              <div className="lp-form-group">
+                <label>SENHA</label>
+                <input type="password" placeholder="••••••••" />
+              </div>
+              <button className="lp-btn-primary" onClick={() => navigate('/login')}>▶ ENTRAR</button>
+            </div>
+          ) : (
+            <div>
+              <div className="lp-form-group">
+                <label>NOME</label>
+                <input type="text" placeholder="seu nome" />
+              </div>
+              <div className="lp-form-group">
+                <label>E-MAIL</label>
+                <input type="email" placeholder="seu@email.com" />
+              </div>
+              <div className="lp-form-group">
+                <label>SENHA</label>
+                <input type="password" placeholder="••••••••" />
+              </div>
+              <button className="lp-btn-primary" onClick={() => navigate('/register')}>▶ CRIAR CONTA</button>
+            </div>
+          )}
+
+          <div className="lp-scroll-hint">
+            EXPLORAR<span className="arrow">▼</span>
+          </div>
         </div>
       </section>
 
@@ -241,10 +260,12 @@ export default function LandingPage() {
         <div className="lp-features-header">
           <div className="lp-section-tag">FUNCIONALIDADES</div>
           <div className="lp-section-title">TUDO QUE VOCÊ PRECISA<br />NUM SÓ LUGAR</div>
+          <div className="lp-section-body">Uma plataforma feita para quem vive da música.</div>
         </div>
         <div className="lp-features-grid">
 
           <div className="lp-feature-card" data-num="01">
+            <div className="lp-feat-num">01</div>
             <div className="lp-feature-icon">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <rect x="22" y="4"  width="16" height="4" fill="#FFD200"/>
@@ -265,6 +286,7 @@ export default function LandingPage() {
           </div>
 
           <div className="lp-feature-card" data-num="02">
+            <div className="lp-feat-num">02</div>
             <div className="lp-feature-icon">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <rect x="4"  y="20" width="16" height="16" fill="#FF6B00"/>
@@ -281,6 +303,7 @@ export default function LandingPage() {
           </div>
 
           <div className="lp-feature-card" data-num="03">
+            <div className="lp-feat-num">03</div>
             <div className="lp-feature-icon">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <rect x="8"  y="8"  width="44" height="4"  fill="#FFD200"/>
@@ -300,6 +323,7 @@ export default function LandingPage() {
           </div>
 
           <div className="lp-feature-card" data-num="04">
+            <div className="lp-feat-num">04</div>
             <div className="lp-feature-icon">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <rect x="20" y="4"  width="20" height="4"  fill="#FFD200"/>
@@ -322,6 +346,7 @@ export default function LandingPage() {
           </div>
 
           <div className="lp-feature-card" data-num="05">
+            <div className="lp-feat-num">05</div>
             <div className="lp-feature-icon">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <rect x="8"  y="8"  width="40" height="4"  fill="#00E5FF"/>
@@ -339,6 +364,7 @@ export default function LandingPage() {
           </div>
 
           <div className="lp-feature-card" data-num="06">
+            <div className="lp-feat-num">06</div>
             <div className="lp-feature-icon">
               <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
                 <rect x="8"  y="36" width="8" height="16" fill="#FFD200"/>
@@ -360,7 +386,7 @@ export default function LandingPage() {
 
       {/* COMO FUNCIONA */}
       <section className="lp-como" id="como">
-        <div style={{ textAlign: 'center' }}>
+        <div>
           <div className="lp-section-tag">COMO FUNCIONA</div>
           <div className="lp-section-title">SIMPLES ASSIM</div>
         </div>

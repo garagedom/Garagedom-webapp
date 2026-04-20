@@ -3,10 +3,37 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createProfileSchema, PROFILE_TYPES } from '@/lib/schemas/profileSchema';
 import type { CreateProfileInput } from '@/lib/schemas/profileSchema';
 
-const PROFILE_TYPE_LABELS: Record<typeof PROFILE_TYPES[number], string> = {
-  band: 'Banda',
-  venue: 'Casa de Shows',
-  producer: 'Produtor',
+const TYPE_CONFIG: Record<
+  typeof PROFILE_TYPES[number],
+  { label: string; icon: React.ReactNode }
+> = {
+  band: {
+    label: 'Banda /\nMúsico',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M9 3a1 1 0 00-1 1v8.268a3 3 0 104.001 2.8V9h3V7h-4V4a1 1 0 00-1-1H9z" />
+      </svg>
+    ),
+  },
+  venue: {
+    label: 'Casa de\nShows',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+        <polyline points="9,22 9,12 15,12 15,22" />
+      </svg>
+    ),
+  },
+  producer: {
+    label: 'Produtor',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M3 18v-6a9 9 0 0118 0v6" />
+        <path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3z" />
+        <path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z" />
+      </svg>
+    ),
+  },
 };
 
 interface CreateProfileFormProps {
@@ -21,150 +48,88 @@ export function CreateProfileForm({ onSubmit, apiError }: CreateProfileFormProps
     formState: { errors, isSubmitting },
   } = useForm<CreateProfileInput>({
     resolver: zodResolver(createProfileSchema),
-    defaultValues: {
-      name: '',
-      profile_type: undefined,
-      city: '',
-      music_genre: '',
-    },
+    defaultValues: { name: '', profile_type: undefined, city: '', music_genre: '' },
   });
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-4"
-      noValidate
-    >
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+
       {/* Nome */}
-      <div className="flex flex-col gap-1">
-        <label
-          htmlFor="name"
-          className="text-sm font-medium"
-          style={{ color: '#F2CF1D' }}
-        >
-          Nome do perfil <span aria-hidden="true">*</span>
-        </label>
+      <div className="cp-field">
+        <label htmlFor="cp-name">Nome do perfil <span style={{ color: '#4b5563', fontWeight: 400 }}>*</span></label>
         <input
-          id="name"
+          id="cp-name"
           type="text"
+          placeholder="Ex: The Garage Dogs, Studio 88..."
+          className={`cp-input${errors.name ? ' error' : ''}`}
           aria-required="true"
-          aria-describedby={errors.name ? 'name-error' : undefined}
-          className="px-3 py-2 text-sm bg-transparent outline-none"
-          style={{
-            color: '#f3f4f6',
-            border: `2px solid ${errors.name ? '#ef4444' : '#F2CF1D'}`,
-          }}
+          aria-describedby={errors.name ? 'cp-name-err' : undefined}
           {...register('name')}
         />
-        {errors.name && (
-          <span id="name-error" className="text-xs" style={{ color: '#ef4444' }}>
-            {errors.name.message}
-          </span>
-        )}
+        {errors.name && <div id="cp-name-err" className="cp-field-error">{errors.name.message}</div>}
       </div>
 
       {/* Tipo de perfil */}
-      <fieldset>
-        <legend className="text-sm font-medium mb-2" style={{ color: '#F2CF1D' }}>
-          Tipo de perfil <span aria-hidden="true">*</span>
-        </legend>
-        <div className="flex gap-4" role="radiogroup" aria-required="true">
-          {PROFILE_TYPES.map((type) => (
-            <label
-              key={type}
-              className="flex items-center gap-2 cursor-pointer text-sm"
-              style={{ color: '#f3f4f6' }}
-            >
-              <input
-                type="radio"
-                value={type}
-                style={{ accentColor: '#F2CF1D' }}
-                {...register('profile_type')}
-              />
-              {PROFILE_TYPE_LABELS[type]}
-            </label>
-          ))}
+      <div className="cp-field">
+        <label>Tipo de perfil <span style={{ color: '#4b5563', fontWeight: 400 }}>*</span></label>
+        <div className={`cp-type-grid${errors.profile_type ? ' error' : ''}`} role="radiogroup" aria-required="true">
+          {PROFILE_TYPES.map((type) => {
+            const { label, icon } = TYPE_CONFIG[type];
+            return (
+              <div key={type} className="cp-type-opt">
+                <input
+                  type="radio"
+                  id={`cp-type-${type}`}
+                  className="cp-type-radio"
+                  {...register('profile_type')}
+                  value={type}
+                />
+                <label htmlFor={`cp-type-${type}`} className="cp-type-label">
+                  {icon}
+                  {label.split('\n').map((line, i) => <span key={i}>{line}</span>)}
+                </label>
+              </div>
+            );
+          })}
         </div>
         {errors.profile_type && (
-          <span className="text-xs mt-1 block" style={{ color: '#ef4444' }}>
-            {errors.profile_type.message}
-          </span>
-        )}
-      </fieldset>
-
-      {/* Cidade */}
-      <div className="flex flex-col gap-1">
-        <label
-          htmlFor="city"
-          className="text-sm font-medium"
-          style={{ color: '#F2CF1D' }}
-        >
-          Cidade <span aria-hidden="true">*</span>
-        </label>
-        <input
-          id="city"
-          type="text"
-          aria-required="true"
-          aria-describedby={errors.city ? 'city-error' : undefined}
-          className="px-3 py-2 text-sm bg-transparent outline-none"
-          style={{
-            color: '#f3f4f6',
-            border: `2px solid ${errors.city ? '#ef4444' : '#F2CF1D'}`,
-          }}
-          {...register('city')}
-        />
-        {errors.city && (
-          <span id="city-error" className="text-xs" style={{ color: '#ef4444' }}>
-            {errors.city.message}
-          </span>
+          <div className="cp-field-error">{errors.profile_type.message}</div>
         )}
       </div>
 
-      {/* Gênero musical (opcional) */}
-      <div className="flex flex-col gap-1">
-        <label
-          htmlFor="music_genre"
-          className="text-sm font-medium"
-          style={{ color: '#F2CF1D' }}
-        >
-          Gênero musical{' '}
-          <span className="text-xs font-normal" style={{ color: '#9ca3af' }}>
-            (opcional)
-          </span>
+      {/* Cidade */}
+      <div className="cp-field">
+        <label htmlFor="cp-city">Cidade <span style={{ color: '#4b5563', fontWeight: 400 }}>*</span></label>
+        <input
+          id="cp-city"
+          type="text"
+          placeholder="Ex: São Paulo, SP"
+          className={`cp-input${errors.city ? ' error' : ''}`}
+          aria-required="true"
+          aria-describedby={errors.city ? 'cp-city-err' : undefined}
+          {...register('city')}
+        />
+        {errors.city && <div id="cp-city-err" className="cp-field-error">{errors.city.message}</div>}
+      </div>
+
+      {/* Gênero musical */}
+      <div className="cp-field">
+        <label htmlFor="cp-genre">
+          Gênero musical <span className="opt">(opcional)</span>
         </label>
         <input
-          id="music_genre"
+          id="cp-genre"
           type="text"
           placeholder="Ex: Rock, Sertanejo, MPB..."
-          className="px-3 py-2 text-sm bg-transparent outline-none"
-          style={{
-            color: '#f3f4f6',
-            border: '2px solid #F2CF1D',
-          }}
+          className="cp-input"
           {...register('music_genre')}
         />
       </div>
 
-      {/* Erro de API */}
-      {apiError && (
-        <p role="alert" className="text-sm text-center" style={{ color: '#ef4444' }}>
-          {apiError}
-        </p>
-      )}
+      {apiError && <div className="cp-root-error" role="alert">{apiError}</div>}
 
-      {/* Submit */}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="mt-2 px-6 py-3 text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-transform active:translate-x-[2px] active:translate-y-[2px]"
-        style={{
-          backgroundColor: '#F2CF1D',
-          color: '#0D0D0D',
-          border: '2px solid #0D0D0D',
-          boxShadow: '4px 4px 0 #403208',
-        }}
-      >
-        {isSubmitting ? 'Criando perfil...' : 'Criar perfil'}
+      <button type="submit" disabled={isSubmitting} className="cp-submit">
+        {isSubmitting ? 'Criando perfil...' : 'Criar perfil →'}
       </button>
     </form>
   );
